@@ -6,15 +6,15 @@ using UnityEngine.EventSystems;
 
 public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler 
 {
-    Vector2 offset = Vector2.zero;
+    Vector3 offset = Vector3.zero;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        offset = new Vector2(transform.position.x, transform.position.y) - eventData.position;
+        offset = transform.position - eventData.pressEventCamera.ScreenToWorldPoint(eventData.position);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        transform.position = eventData.position + offset;
+        transform.position = eventData.pressEventCamera.ScreenToWorldPoint(eventData.position) + offset;
     }
 }

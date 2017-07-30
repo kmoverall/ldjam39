@@ -18,41 +18,58 @@ public class TapOutSpeech : MonoBehaviour {
     string[] businessWords;
     [SerializeField]
     string fillerWord;
-    
-    List<string> words = new List<string>();
 
-    void Start()
+    List<string> words = new List<string>();
+    [System.NonSerialized]
+    public Slideshow.Clickable talkTarget = null;
+
+    private void Awake()
     {
-        GenerateText();
+        Game.Speech = this;
     }
 
-    void Update () 
+    void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && talkTarget != null)
         {
             if (words.Count > 0)
             {
                 foreach (GameObject speechBubble in speechBubbles)
                     speechBubble.SetActive(true);
-                    
+
                 foreach (Text speech in speeches)
                     speech.text += speech.text.Length == 0 ? words[0] : " " + words[0];
 
                 words.RemoveAt(0);
                 character.SetTrigger("Speak");
-                Game.Manager.WordSaid();
+
+                Game.Manager.PauseBoredom(0.5f);
             }
             else
             {
+                Game.Manager.FinishTalk();
+                talkTarget = null;
                 foreach (GameObject speechBubble in speechBubbles)
                     speechBubble.SetActive(false);
-
-                foreach (Text speech in speeches)
-                    speech.text = "";
-                GenerateText();
             }
         }
 
+    }
+
+    public void StartTalk(Slideshow.Clickable t)
+    {
+        if (talkTarget != null)
+            return;
+
+        t.numTimesSelected++;
+        talkTarget = t;
+
+        foreach (GameObject speechBubble in speechBubbles)
+            speechBubble.SetActive(true);
+
+        foreach (Text speech in speeches)
+            speech.text = "";
+        GenerateText();
     }
 
     public void GenerateText()
