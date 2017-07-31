@@ -44,10 +44,12 @@ public class TapOutSpeech : MonoBehaviour {
                 character.SetTrigger("Speak");
 
                 Game.Manager.PauseBoredom(0.5f);
+
+                Game.Audio.Talk();
             }
             else
             {
-                Game.Manager.FinishTalk();
+                Game.Manager.FinishTalkMood();
                 talkTarget = null;
                 foreach (GameObject speechBubble in speechBubbles)
                     speechBubble.SetActive(false);

@@ -61,6 +61,8 @@ public class PowerpointEditor : MonoBehaviour
 
     public void NextSlide()
     {
+        Game.Manager.EndSlideMood();
+
         slideshow.clickables.Clear();
         Rect slideRect = editedSlide.rect;
 
@@ -82,6 +84,6 @@ public class PowerpointEditor : MonoBehaviour
         SpawnChoices();
         Game.Manager.ChangeView(0);
         Game.Manager.PauseBoredom(0.5f);
-        Game.Manager.NewSlide();
+        Game.Manager.NewSlideMood();
     }
 }

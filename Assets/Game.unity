@@ -418,6 +418,8 @@ GameObject:
   - component: {fileID: 96334012}
   - component: {fileID: 96334014}
   - component: {fileID: 96334015}
+  - component: {fileID: 96334017}
+  - component: {fileID: 96334016}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -440,17 +442,18 @@ MonoBehaviour:
   - {fileID: 1566840194}
   - {fileID: 1256464123}
   - {fileID: 673303766}
-  chanceOfInterestPerElement: 0.06
-  chanceOfInterestFromTalk: 0.06
+  chanceOfInterestPerElement: 0.05
+  chanceOfInterestFromTalk: 0.04
   chanceOfInterestPerRepeat: -0.01
   checkBoredomFreq: 4
-  chanceOfBored: 0.012
+  chanceOfBored: 0.02
   chanceOfBoredPerRepeat: 0.02
   chanceOfBoredFromEmpty: 0.1
   boredomAccelerationTime: 15
   boredomAccelerationAmount: 1.1
   chanceOfConfusedPerOverlap: 0.00003
   chanceOfConfusedFromEmpty: 0.2
+  chanceOfConfusedPerSkippedElement: 0.08
   confusionBoredomPenalty: 2
 --- !u!4 &96334013
 Transform:
@@ -552,6 +555,106 @@ MonoBehaviour:
   - {fileID: 1523379801}
   - {fileID: 915527924}
   - {fileID: 2054944748}
+--- !u!82 &96334016
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 96334011}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.3
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+--- !u!114 &96334017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 96334011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4073f4ececf982e4bab9fe18ae7623cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  talkSounds:
+  - {fileID: 8300000, guid: 0e03439ac9019d540a46e3db83041c52, type: 3}
+  - {fileID: 8300000, guid: 491305824a74d2d43b6aba8d58f99757, type: 3}
+  - {fileID: 8300000, guid: 3731d3a79c48b1549ba456b6338319ba, type: 3}
+  boredSound: {fileID: 8300000, guid: 5232d1b6a2226884192dd7d7dade0c25, type: 3}
+  interestSound: {fileID: 8300000, guid: 513eea378dcc1974f9bda8d65b8cc4cd, type: 3}
+  confuseSound: {fileID: 8300000, guid: c6e020e73532a13479e21358ecd0086d, type: 3}
+  minPitch: 0.85
+  maxPitch: 1.15
 --- !u!224 &105025112 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224632434038461884, guid: c258c696a6a63e94190a4c82f2a9dae5,
@@ -3007,8 +3110,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: People become confused when your slides are messy. Confused people are more
-    likely to become bored.
+  m_Text: People become confused when your slides are messy and when you don't talk
+    about a whole slide. Confused people are more likely to become bored.
 --- !u!222 &627558485
 CanvasRenderer:
   m_ObjectHideFlags: 0

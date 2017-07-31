@@ -25,6 +25,13 @@ public class MoodDisplay : MonoBehaviour {
 
     private void LateUpdate()
     {
+        if (BoredThisFrame > 0)
+            Game.Audio.Bored();
+        if (ConfusedThisFrame > 0)
+            Game.Audio.Confused();
+        if (InterestedThisFrame > 0)
+            Game.Audio.Interested();
+
         for (int i = 0; i < BoredThisFrame; i++)
         {
             if (i < display0.Count)

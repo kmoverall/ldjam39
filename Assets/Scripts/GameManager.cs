@@ -90,6 +90,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     float chanceOfConfusedFromEmpty;
     [SerializeField]
+    float chanceOfConfusedPerSkippedElement;
+    [SerializeField]
     float confusionBoredomPenalty;
 
 
@@ -189,10 +191,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void NewSlide()
+    public void NewSlideMood()
     {
         ChangeAudienceMood(Mood.Interested, chanceOfInterestPerElement * Game.Slideshow.Variety);
-        ChangeAudienceMood(Mood.Confused, chanceOfConfusedPerOverlap *Game.Slideshow.OverlapRating);
+        ChangeAudienceMood(Mood.Confused, chanceOfConfusedPerOverlap * Game.Slideshow.OverlapRating);
         if (Game.Slideshow.clickables.Count == 0)
         {
             ChangeAudienceMood(Mood.Confused, chanceOfConfusedFromEmpty);
@@ -200,7 +202,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void FinishTalk()
+    public void EndSlideMood()
+    {
+        int skipCount = 0;
+        foreach (Slideshow.Clickable cl in Game.Slideshow.clickables)
+        {
+            if (cl.numTimesSelected == 0)
+                skipCount++;
+        }
+        ChangeAudienceMood(Mood.Confused, chanceOfConfusedPerSkippedElement * skipCount);
+    }
+
+    public void FinishTalkMood()
     {
         ChangeAudienceMood(Mood.Bored, chanceOfBoredPerRepeat * (Game.Speech.talkTarget.numTimesSelected - 1));
         ChangeAudienceMood(Mood.Interested, chanceOfInterestFromTalk + (Game.Speech.talkTarget.numTimesSelected-1) * chanceOfInterestPerRepeat);
@@ -212,6 +225,9 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < Audience.Length; i++)
         {
+            if (mood == Mood.Confused && Audience[i] == Mood.Bored)
+                continue;
+
             float modChance = mood == Mood.Bored && Audience[i] == Mood.Confused ? chance * confusionBoredomPenalty : chance;
 
             if (!moodChangedThisFrame[i] && Random.value < modChance)

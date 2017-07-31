@@ -11,5 +11,5 @@ public static class Game
     public static Slideshow Slideshow;
     public static MoodDisplay MoodDisplay;
     public static MainMenu Menu;
-
+    public static AudioPlayer Audio;
 }
